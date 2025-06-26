@@ -87,3 +87,16 @@ def test_find_pets_by_status(api_url, get_method_endpoint, status):
     with allure.step("Проверка ответа"):
         assert response.status_code == 200
         assert all(pet['status'] == status for pet in response.json())
+
+
+def test_find_pet_by_id(api_url, get_pet_endpoint, add_pet):
+    response = api_request(
+        base_api_url=api_url,
+        endpoint=get_pet_endpoint,
+        method_type='GET',
+        path_params={'id':add_pet}
+    )
+
+    assert response.status_code == 200
+    assert response.json()['id'] == add_pet
+

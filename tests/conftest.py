@@ -1,4 +1,5 @@
 import json
+import random
 from dataclasses import asdict
 
 import pytest
@@ -21,6 +22,10 @@ def get_method_endpoint():
     return '/v2/pet/findByStatus'
 
 @pytest.fixture()
+def get_pet_endpoint():
+    return '/v2/pet/{id}'
+
+@pytest.fixture()
 def get_headers():
     headers = {
         'accept': 'application/json',
@@ -30,8 +35,9 @@ def get_headers():
     return headers
 
 @pytest.fixture()
-def add_pet(api_url, endpoint, get_headers):
-    payload = json.dumps(asdict(pets.cat))
+def add_pet(api_url, endpoint, get_headers, request):
+    pet_instance = random.choice([pets.cat, pets.lion, pets.dog])
+    payload = json.dumps(asdict(pet_instance))
 
     result = api_request(
         api_url,
@@ -46,5 +52,4 @@ def add_pet(api_url, endpoint, get_headers):
 
 @pytest.fixture(params=['available', 'pending', 'sold'])
 def pet_status(request):
-    """Фикстура для параметризации тестов по статусам"""
     return request.param

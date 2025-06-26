@@ -2,7 +2,10 @@ import requests
 from utils.attach_function import response_logging, response_attaching
 
 
-def api_request(base_api_url, endpoint, method_type, params=None, **kwargs):
+def api_request(base_api_url, endpoint, method_type, params=None, path_params: dict = None, **kwargs):
+    if path_params:
+        endpoint = endpoint.format(**path_params)
+
     url = f"{base_api_url}{endpoint}"
     response = requests.request(method_type, url, params=params, **kwargs)
     response_logging(response) # логирование запроса и ответа
