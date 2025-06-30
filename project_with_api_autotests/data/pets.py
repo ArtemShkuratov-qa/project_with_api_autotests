@@ -1,3 +1,4 @@
+import random
 from dataclasses import dataclass, asdict
 from typing import List, Optional
 import json
@@ -24,28 +25,28 @@ class Pet:
 
 
 dog = Pet(
-    id=777,
+    id=random.randint(1, 1000000),
     name="test001",
-    category=Category(id=1, name="catergory1"),
+    category=Category(id=167, name="catergory1"),
     photoUrls=["string"],
-    tags=[Tag(id=1, name="tag1")],
+    tags=[Tag(id=134, name="tag1")],
     status="available"
 )
 
 cat = Pet(
-    id=884,
+    id=random.randint(1, 1000000),
     name="test002",
-    category=Category(id=2, name="catergory2"),
+    category=Category(id=152, name="catergory2"),
     photoUrls=["string"],
-    tags=[Tag(id=2, name="tag2")],
+    tags=[Tag(id=222, name="tag2")],
     status="pending"
 )
 
 lion = Pet(
-    id=325,
+    id=random.randint(1, 1000000),
     name="test003",
-    category=Category(id=3, name="catergory3"),
+    category=Category(id=355, name="catergory3"),
     photoUrls=["string"],
-    tags=[Tag(id=3, name="tag3")],
+    tags=[Tag(id=366, name="tag3")],
     status="sold"
 )

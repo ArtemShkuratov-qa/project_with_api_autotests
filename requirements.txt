@@ -5,3 +5,4 @@ allure-python-commons~=2.14.2
 pydentic
 jsonschema~=4.24.0
 pydantic~=2.11.7
+pytest-retry

@@ -4,7 +4,7 @@ from dataclasses import asdict
 
 import pytest
 
-from helpers.api_request import api_request
+from helpers.api_requests import api_request
 from project_with_api_autotests.data import pets
 
 
@@ -25,14 +25,12 @@ def get_method_endpoint():
 def get_pet_endpoint():
     return '/v2/pet/{id}'
 
-@pytest.fixture()
+@pytest.fixture
 def get_headers():
-    headers = {
+    return {
         'accept': 'application/json',
         'Content-Type': 'application/json'
     }
-
-    return headers
 
 @pytest.fixture()
 def add_pet(api_url, endpoint, get_headers, request):
