@@ -1,4 +1,5 @@
 import json
+from dataclasses import asdict
 from pathlib import Path
 import allure
 import requests
@@ -28,10 +29,15 @@ def load_schema(schema_name):
 @allure.step('Проверяем ответ на соответствие JSON-схеме')
 def verify_response_json_schema(response: Response, schema_title):
     schema = load_schema(schema_title)
+    with open(schema) as file:
+        validate(response.json(), json.loads(file.read()))
 
-    with allure.step('Validate the response json schema'):
-        with open(schema) as file:
-            validate(response.json(), json.loads(file.read()))
+@allure.step('Проверяем запрос на соответствие JSON-схеме')
+def verify_request_json_schema(schema_title, payload):
+    schema = load_schema(schema_title)
+    with open(schema) as file:
+        payload = asdict(payload)  # Преобразуем в словарь
+        validate(payload, json.loads(file.read()))
 
 @allure.step('Проверяем, что статус код соответствует ожидаемому')
 def verify_status_code(response: Response, expected_status_code):

@@ -2,7 +2,7 @@ import allure
 import pytest
 from allure_commons.types import Severity
 from helpers.api_requests import api_request, verify_response_json_schema, verify_status_code, check_simple_field, \
-    check_condition
+    check_condition, verify_request_json_schema
 from helpers.pet_helpers import create_pet, update_pet
 from tests.conftest import get_headers, add_pet
 from project_with_api_autotests.data import pets
@@ -19,6 +19,10 @@ def test_create_pet_with_available_status(get_headers):
         headers=get_headers
     )
 
+    verify_request_json_schema(
+        schema_title='request_pet_schema.json',
+        payload=pets.dog
+    )
     verify_response_json_schema(
         response=response,
         schema_title='pet_schema.json'
@@ -37,6 +41,10 @@ def test_create_pet_with_pending_status(get_headers):
         headers=get_headers
     )
 
+    verify_request_json_schema(
+        schema_title='request_pet_schema.json',
+        payload=pets.dog
+    )
     verify_response_json_schema(
         response=response,
         schema_title='pet_schema.json'
@@ -55,6 +63,10 @@ def test_create_pet_with_sold_status(get_headers):
         headers=get_headers
     )
 
+    verify_request_json_schema(
+        schema_title='request_pet_schema.json',
+        payload=pets.dog
+    )
     verify_response_json_schema(
         response=response,
         schema_title='pet_schema.json'
@@ -77,6 +89,10 @@ def test_update_pet(get_headers, add_pet):
         pet_id=pet_id
     )
 
+    verify_request_json_schema(
+        schema_title='request_pet_schema.json',
+        payload=pets.dog
+    )
     verify_response_json_schema(
         response=response,
         schema_title='pet_schema.json'
