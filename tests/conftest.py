@@ -9,11 +9,6 @@ from project_with_api_autotests.data import pets
 
 
 @pytest.fixture
-def api_url():
-    return 'https://petstore.swagger.io'
-
-
-@pytest.fixture
 def endpoint():
     return '/v2/pet'
 
@@ -33,12 +28,11 @@ def get_headers():
     }
 
 @pytest.fixture()
-def add_pet(api_url, endpoint, get_headers, request):
+def add_pet(endpoint, get_headers, request):
     pet_instance = random.choice([pets.cat, pets.lion, pets.dog])
     payload = json.dumps(asdict(pet_instance))
 
     result = api_request(
-        api_url,
         endpoint,
         method_type='post',
         headers = get_headers,
@@ -46,7 +40,6 @@ def add_pet(api_url, endpoint, get_headers, request):
     )
 
     return result.json()['id']
-
 
 @pytest.fixture(params=['available', 'pending', 'sold'])
 def pet_status(request):

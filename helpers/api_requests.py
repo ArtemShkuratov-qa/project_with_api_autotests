@@ -3,17 +3,20 @@ from pathlib import Path
 import allure
 import requests
 from requests import Response
-
 from utils.attach_function import response_logging, response_attaching
 from jsonschema import validate
+from dotenv import load_dotenv
+import os
 
+load_dotenv()  # Загружает переменные из .env
+BASE_URL = os.getenv("BASE_API_URL")
 
 @allure.step('Отправляем запрос {method_type}')
-def api_request(base_api_url, endpoint, method_type, params=None, path_params: dict = None, **kwargs):
+def api_request(endpoint, method_type, params=None, path_params: dict = None, **kwargs):
     if path_params:
         endpoint = endpoint.format(**path_params)
 
-    url = f"{base_api_url}{endpoint}"
+    url = f"{BASE_URL}{endpoint}"
     response = requests.request(method_type, url, params=params, **kwargs)
     response_logging(response)
     response_attaching(response)

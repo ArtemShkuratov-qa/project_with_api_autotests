@@ -6,3 +6,5 @@ pydentic
 jsonschema~=4.24.0
 pydantic~=2.11.7
 pytest-retry
+dotenv~=0.9.9
+python-dotenv~=1.1.1
