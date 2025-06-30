@@ -132,7 +132,7 @@ def test_find_pets_by_status(get_method_endpoint, status):
 @allure.story("Питомец")
 @allure.severity(Severity.BLOCKER)
 @allure.label('owner', 'Shkuratov Artem')
-@pytest.mark.flaky(reason="API sometimes returns 404 timeout")
+@pytest.mark.flaky(reason="Сервис периодически возвращает статус код 404")
 def test_find_pet_by_id(get_pet_endpoint, add_pet):
     response = api_request(
         endpoint=get_pet_endpoint,
@@ -152,7 +152,7 @@ def test_find_pet_by_id(get_pet_endpoint, add_pet):
 @allure.story("Питомец")
 @allure.severity(Severity.BLOCKER)
 @allure.label('owner', 'Shkuratov Artem')
-@pytest.mark.flaky(reason="API sometimes returns 404 timeout")
+@pytest.mark.flaky(reason="Сервис периодически возвращает статус код 404")
 def test_delete_pet(get_pet_endpoint, add_pet):
     api_request(
         endpoint=get_pet_endpoint,
