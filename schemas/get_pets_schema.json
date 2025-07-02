@@ -27,8 +27,7 @@
           }
         },
         "required": [
-          "id",
-          "name"
+          "id"
         ],
         "additionalProperties": false
       },
@@ -72,8 +71,7 @@
             }
           },
           "required": [
-            "id",
-            "name"
+            "id"
           ],
           "additionalProperties": false
         }
@@ -89,7 +87,6 @@
     },
     "required": [
       "id",
-      "photoUrls",
       "status"
     ],
     "additionalProperties": false
