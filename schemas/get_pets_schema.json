@@ -23,7 +23,7 @@
             ]
           },
           "name": {
-            "type": "string"
+            "type": ["string", "null"]
           }
         },
         "required": [
@@ -67,7 +67,7 @@
               ]
             },
             "name": {
-              "type": "string"
+              "type": ["string", "null"]
             }
           },
           "required": [
