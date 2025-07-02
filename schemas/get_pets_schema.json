@@ -32,14 +32,14 @@
         "additionalProperties": false
       },
       "name": {
-        "type": "string"
+        "type": ["string", "null"]
       },
       "photoUrls": {
         "anyOf": [
           {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": ["string", "null"]
             },
             "minItems": 1
           },
