@@ -63,10 +63,10 @@
 ## <img width="3%" title="Allure Report" src="images/logos/allure_report.png"> Allure report
 
 >#### Результаты выполнения тестов можно посмотреть в Allure-отчете.
-![This is an image](images/screenshots/allure_report_screenshot.png)
+![This is an image](resources/images/screenshots/allure_report_screenshot.png)
 
 >#### Сформированный сьют с тест-кейсами из тестового прогона отображается во вкладке "Suites".
-![This is an image](images/screenshots/allure_report_testcases.png)
+![This is an image](resources/images/screenshots/allure_report_testcases.png)
 
 
 <!-- Allure TestOps -->
@@ -75,11 +75,11 @@
 
 >#### Ссылка на <a target="_blank" href="https://allure.autotests.cloud/project/4824/dashboards">Dashboard</a>
 
-![This is an image](images/screenshots/allure_testops_dashboard.png)
+![This is an image](resources/images/screenshots/allure_testops_dashboard.png)
 
 >#### Тест-кейсы, сформированные в рамках прохождения тестового прогона
 
-![This is an image](images/screenshots/allure_testops_test_cases.png)
+![This is an image](resources/images/screenshots/allure_testops_test_cases.png)
 
 
 <!-- Jira -->
@@ -88,7 +88,7 @@
 
 >#### Реализована интеграция Allure TestOps с Jira. В задачу из Jira можно добавить список тест-кейсов и результат тестового прогона по ним.
 
-![This is an image](images/screenshots/jira_screenshot.png)
+![This is an image](resources/images/screenshots/jira_screenshot.png)
 
 
 <!-- Telegram -->

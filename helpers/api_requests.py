@@ -24,20 +24,25 @@ def api_request(endpoint, method_type, params=None, path_params: dict = None, **
     return response
 
 def load_schema(schema_name):
-    return str(Path(__file__).parent.parent.joinpath(f'schemas/{schema_name}'))
+    """Возвращает абсолютный путь к файлу схемы в папке resources/schemas/"""
+    base_dir = Path(__file__).parent.parent  # Корень проекта
+    schema_path = base_dir / 'resources' / 'schemas' / schema_name
+    if not schema_path.exists():
+        raise FileNotFoundError(f"Schema file not found: {schema_path}")
+    return schema_path
 
 @allure.step('Проверяем ответ на соответствие JSON-схеме')
 def verify_response_json_schema(response: Response, schema_title):
-    schema = load_schema(schema_title)
-    with open(schema) as file:
-        validate(response.json(), json.loads(file.read()))
+    schema_path = load_schema(schema_title)
+    with open(schema_path) as file:
+        validate(response.json(), json.load(file))  # Используем json.load вместо json.loads
 
 @allure.step('Проверяем запрос на соответствие JSON-схеме')
 def verify_request_json_schema(schema_title, payload):
-    schema = load_schema(schema_title)
-    with open(schema) as file:
-        payload = asdict(payload)  # Преобразуем в словарь
-        validate(payload, json.loads(file.read()))
+    schema_path = load_schema(schema_title)
+    with open(schema_path) as file:
+        payload_dict = asdict(payload) if not isinstance(payload, dict) else payload
+        validate(payload_dict, json.load(file))
 
 @allure.step('Проверяем, что статус код соответствует ожидаемому')
 def verify_status_code(response: Response, expected_status_code):

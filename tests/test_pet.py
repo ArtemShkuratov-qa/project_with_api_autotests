@@ -3,20 +3,19 @@ import pytest
 from allure_commons.types import Severity
 from helpers.api_requests import api_request, verify_response_json_schema, verify_status_code, check_simple_field, \
     check_condition, verify_request_json_schema
-from helpers.pet_helpers import create_pet, update_pet
-from tests.conftest import get_headers, add_pet
+from helpers.pet_helpers import PetHelpers  # Импортируем весь класс
 from project_with_api_autotests.data import pets
 
 
-@allure.title('Создание питомца со статусом "availabe"')
+@allure.title('Создание питомца со статусом "available"')
 @allure.tag('web', 'smoke')
 @allure.story('Питомец')
 @allure.severity(Severity.BLOCKER)
 @allure.label('owner', 'Shkuratov Artem')
-def test_create_pet_with_available_status(get_headers):
-    response = create_pet(
+def test_create_pet_with_available_status():
+    response = PetHelpers.create_pet(
         pet_data=pets.dog,
-        headers=get_headers
+        headers=PetHelpers.DEFAULT_HEADERS  # Используем стандартные заголовки
     )
 
     verify_request_json_schema(
@@ -35,10 +34,10 @@ def test_create_pet_with_available_status(get_headers):
 @allure.story('Питомец')
 @allure.severity(Severity.BLOCKER)
 @allure.label('owner', 'Shkuratov Artem')
-def test_create_pet_with_pending_status(get_headers):
-    response = create_pet(
+def test_create_pet_with_pending_status():
+    response = PetHelpers.create_pet(
         pet_data=pets.cat,
-        headers=get_headers
+        headers=PetHelpers.DEFAULT_HEADERS
     )
 
     verify_request_json_schema(
@@ -57,10 +56,10 @@ def test_create_pet_with_pending_status(get_headers):
 @allure.story('Питомец')
 @allure.severity(Severity.BLOCKER)
 @allure.label('owner', 'Shkuratov Artem')
-def test_create_pet_with_sold_status(get_headers):
-    response = create_pet(
+def test_create_pet_with_sold_status():
+    response = PetHelpers.create_pet(
         pet_data=pets.lion,
-        headers=get_headers
+        headers=PetHelpers.DEFAULT_HEADERS
     )
 
     verify_request_json_schema(
@@ -79,19 +78,18 @@ def test_create_pet_with_sold_status(get_headers):
 @allure.story('Питомец')
 @allure.severity(Severity.BLOCKER)
 @allure.label('owner', 'Shkuratov Artem')
-def test_update_pet(get_headers, add_pet):
+def test_update_pet(add_pet):  # Используем фикстуру
     pet_id = add_pet
     updated_data = pets.lion
 
-    response = update_pet(
+    response = PetHelpers.update_pet(
         pet_data=updated_data,
-        headers=get_headers,
         pet_id=pet_id
     )
 
     verify_request_json_schema(
         schema_title='request_pet_schema.json',
-        payload=pets.dog
+        payload=updated_data
     )
     verify_response_json_schema(
         response=response,
@@ -112,13 +110,12 @@ def test_update_pet(get_headers, add_pet):
     pytest.param("pending", id="pending_status"),
     pytest.param("sold", id="sold_status")
 ])
-def test_find_pets_by_status(get_method_endpoint, status):
-    with allure.step(f"Отправка запроса для статуса {status}"):
-        response = api_request(
-            endpoint=get_method_endpoint,
-            method_type='GET',
-            params={'status': status}
-        )
+def test_find_pets_by_status(status):
+    response = api_request(
+        endpoint=PetHelpers.FIND_BY_STATUS_ENDPOINT,  # Используем константу из класса
+        method_type='GET',
+        params={'status': status}
+    )
 
     verify_response_json_schema(
         response=response,
@@ -133,11 +130,10 @@ def test_find_pets_by_status(get_method_endpoint, status):
 @allure.severity(Severity.BLOCKER)
 @allure.label('owner', 'Shkuratov Artem')
 @pytest.mark.flaky(reason="Сервис периодически возвращает статус код 404")
-def test_find_pet_by_id(get_pet_endpoint, add_pet):
+def test_find_pet_by_id(add_pet):
     response = api_request(
-        endpoint=get_pet_endpoint,
-        method_type='GET',
-        path_params={'id':add_pet}
+        endpoint = f"{PetHelpers.PET_BY_ID_ENDPOINT.format(id=add_pet)}",
+        method_type='GET'
     )
 
     verify_response_json_schema(
@@ -153,17 +149,15 @@ def test_find_pet_by_id(get_pet_endpoint, add_pet):
 @allure.severity(Severity.BLOCKER)
 @allure.label('owner', 'Shkuratov Artem')
 @pytest.mark.flaky(reason="Сервис периодически возвращает статус код 404")
-def test_delete_pet(get_pet_endpoint, add_pet):
+def test_delete_pet(add_pet):
     api_request(
-        endpoint=get_pet_endpoint,
-        method_type='DELETE',
-        path_params={'id':add_pet}
+        endpoint=f"{PetHelpers.PET_BY_ID_ENDPOINT.format(id=add_pet)}",
+        method_type='DELETE'
     )
 
     response = api_request(
-        endpoint=get_pet_endpoint,
-        method_type='GET',
-        path_params={'id':add_pet}
+        endpoint=f"{PetHelpers.PET_BY_ID_ENDPOINT.format(id=add_pet)}",
+        method_type='GET'
     )
 
     verify_status_code(response=response, expected_status_code=404)
